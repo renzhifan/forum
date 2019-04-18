@@ -31,25 +31,20 @@ class ParticipateInForumTest extends TestCase
         $thread=factory('App\Thread')->create();
         // When the user adds a reply to the thread
         $reply=factory('App\Reply')->make();
+
+//        dd($thread->path() . '/replies');  // 打印出来
+
         $this->post($thread->path().'/replies/',$reply->toArray());
         // Then their reply should be visible on the page
         $this->get($thread->path())->assertSee($reply->body);
     }
 
+    //未登录用户抛出异常。但是我们真正的测试逻辑应该是：未登录用户试图进行此动作，我们将其重定向至登录页面：
     public function testUnauthenticatedUserMayNoAddReplies()
     {
-//        1
-        /*$this->expectException('Illuminate\Auth\AuthenticationException');
-
-        $thread = factory('App\Thread')->create();
-
-        $reply = factory('App\Reply')->create();
-        $this->post($thread->path().'/replies',$reply->toArray());*/
-
-//        2
-        $this->expectException('Illuminate\Auth\AuthenticationException');
-
-        $this->post('threads/1/replies',[]);
+        $this->withExceptionHandling()
+            ->post('threads/some-channel/1/replies',[])
+            ->assertRedirect('/login');
     }
 
 }

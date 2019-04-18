@@ -22,10 +22,12 @@ class CreateThreadsTest extends TestCase
     public function testAnAuthenticatedUserCanCreateNewForumThreads()
     {
         // Given we have a signed in user
-        $this->actingAs(factory('App\User')->create());//已登录用户
+        $this->signIn(create('App\User'));  // 已登录用户
+
         // When we hit the endpoint to cteate a new thread
-        $thread = factory('App\Thread')->make();
+        $thread = create('App\Thread');
         $this->post('/threads',$thread->toArray());
+//        dd($thread->path()); // 打印出路径
         // Then,when we visit the thread
         // We should see the new thread
         $this->get($thread->path())
@@ -36,9 +38,13 @@ class CreateThreadsTest extends TestCase
     //未登录用户不能添加 thread
     public function testGuestsMayNotCreateThreads()
     {
-        $this->expectException('Illuminate\Auth\AuthenticationException'); // 在此处抛出异常即代表测试通过
-        $thread = factory('App\Thread')->make();
-        $this->post('/threads',$thread->toArray());
+        $this->withExceptionHandling();
+
+        $this->get('/threads/create')
+            ->assertRedirect('/login');
+
+        $this->post('/threads')
+            ->assertRedirect('/login');
     }
     //测试未登录用户访问 http://forum.test/threads/create 页面。测试逻辑应为：用户访问页面，如未登录，重定向到 登录页面 。
     public function testGuestsMayNotSeeTheCreateThreadPage()
@@ -47,5 +53,4 @@ class CreateThreadsTest extends TestCase
         $this->get('/threads/create')
             ->assertRedirect('/login');
     }
-
 }
