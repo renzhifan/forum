@@ -4,18 +4,12 @@ php:
   - 7.2
   - nightly
 
-env:
-  - APP_DEBUG=false
-
 install:
   - composer install --prefer-dist --optimize-autoloader --quiet
 
 notifications:
   email:
     recipients:
-    - zhifan6797@163.com
+      - zhifan6797@163.com
     on_success: always
     on_failure: always
-
-script:
-  - phpunit -c phpunit.xml --coverage-text
