@@ -36,7 +36,7 @@ class ReadThreadsTest extends TestCase
 
     public function testAUserCanReadASingleThread()
     {
-        $this->get('/threads/' . $this->thread->id)
+        $this->get($this->thread->path())
             ->
             assertSee($this->thread->title);
     }
@@ -49,7 +49,8 @@ class ReadThreadsTest extends TestCase
             ->create(['thread_id' => $this->thread->id]);
         // 那么当我们看该 Thread 时
         // 我们也要看到回复
-        $this->get('/threads/' . $this->thread->id)
-            ->assertSee($reply->body);
+        $this->get($this->thread->path())
+            ->
+            assertSee($reply->body);
     }
 }
