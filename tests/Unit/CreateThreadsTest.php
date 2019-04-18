@@ -40,4 +40,12 @@ class CreateThreadsTest extends TestCase
         $thread = factory('App\Thread')->make();
         $this->post('/threads',$thread->toArray());
     }
+    //测试未登录用户访问 http://forum.test/threads/create 页面。测试逻辑应为：用户访问页面，如未登录，重定向到 登录页面 。
+    public function testGuestsMayNotSeeTheCreateThreadPage()
+    {
+        $this->withExceptionHandling(); // 此处调用
+        $this->get('/threads/create')
+            ->assertRedirect('/login');
+    }
+
 }

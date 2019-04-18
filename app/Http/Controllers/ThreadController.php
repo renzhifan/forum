@@ -9,7 +9,8 @@ class ThreadController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->only('store'); // 白名单，意味着仅 store 方法需要登录
+        //        $this->middleware('auth')->only('store'); // 白名单，意味着仅 store 方法需要登录
+        $this->middleware('auth')->except(['index','show']);//即除了 index,show 方法，其他方法都需要进行登录才能操作。
     }
     /**
      * Display a listing of the resource.
@@ -32,6 +33,7 @@ class ThreadController extends Controller
     public function create()
     {
         //
+        return view('threads.create');
     }
 
     /**
