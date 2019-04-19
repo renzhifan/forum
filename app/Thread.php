@@ -9,6 +9,15 @@ class Thread extends Model
     //
     protected $guarded = [];
 
+    //我们不仅想在 show 页面显示，而在 index 页面也进行显示。我们利用 Laravel 全局作用域 来实现。
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('replyCount',function ($builder){
+            $builder->withCount('replies');
+        });
+    }
     public function scopeFilter($query,$filters)
     {
         return $filters->apply($query);
