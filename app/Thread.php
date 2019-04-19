@@ -8,7 +8,7 @@ class Thread extends Model
 {
     //
     protected $guarded = [];
-
+    protected $with = ['creator','channel'];
     //我们不仅想在 show 页面显示，而在 index 页面也进行显示。我们利用 Laravel 全局作用域 来实现。
     protected static function boot()
     {
@@ -31,9 +31,7 @@ class Thread extends Model
 
     public function replies()
     {
-        return $this->hasMany(Reply::class)
-            ->withCount('favorites')
-            ->with('owner');
+        return $this->hasMany(Reply::class);
     }
 
     public function creator()
