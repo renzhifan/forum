@@ -26,4 +26,9 @@ class Reply extends Model
             return $this->favorites()->create($attributes);
         }
     }
+//来判断当前登录用户是否已经进行过点赞行为
+    public function isFavorited()
+    {
+        return $this->favorites()->where('user_id',auth()->id())->exists();
+    }
 }
