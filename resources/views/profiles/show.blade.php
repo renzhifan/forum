@@ -10,16 +10,14 @@
                         <small>注册于{{ $profileUser->created_at->diffForHumans() }}</small>
                     </h1>
                 </div>
-
                 @foreach($threads as $thread)
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="level">
-                        <span class="flex">
-                            <a href="{{ route('profile',$thread->creator) }}">{{ $thread->creator->name }}</a> 发表于
-                            {{ $thread->title }}
-                        </span>
-
+                            <span class="flex">
+                                <a href="{{ route('profile',$thread->creator) }}">{{ $thread->creator->name }}</a> 发表了
+                                <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
+                            </span>
                                 <span>{{ $thread->created_at->diffForHumans() }}</span>
                             </div>
                         </div>
@@ -29,7 +27,6 @@
                         </div>
                     </div>
                 @endforeach
-
                 {{ $threads->links() }}
             </div>
         </div>

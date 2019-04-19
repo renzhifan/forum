@@ -88,13 +88,25 @@ class CreateThreadsTest extends TestCase
 
         $response->assertRedirect('/login');
     }
+    //测试没有权限的用户删除话题的情形
+    public function testUnauthorizedUsersMayNotDeleteThreads()
+    {
+        $this->withExceptionHandling();
+
+        $thread = create('App\Thread');
+
+        $this->delete($thread->path())->assertRedirect('/login');
+
+        $this->signIn();
+        $this->delete($thread->path())->assertStatus(403);
+    }
 
     //删除话题
-    public function testAThreadCanBeDeleted()
+    public function testAuthorizedUsersCanDeleteThreads()
     {
         $this->signIn();
 
-        $thread = create('App\Thread');
+        $thread = create('App\Thread',['user_id' => auth()->id()]);
         $reply = create('App\Reply',['thread_id' => $thread->id]);
 
         $response =  $this->json('DELETE',$thread->path());
