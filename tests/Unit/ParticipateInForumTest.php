@@ -47,4 +47,15 @@ class ParticipateInForumTest extends TestCase
             ->assertRedirect('/login');
     }
 
+    public function testAReplyReqiuresABody()
+    {
+        $this->withExceptionHandling()->signIn();
+
+        $thread = create('App\Thread');
+        $reply = make('App\Reply',['body' => null]);
+
+        $this->post($thread->path() . '/replies',$reply->toArray())
+            ->assertSessionHasErrors('body');
+    }
+
 }
