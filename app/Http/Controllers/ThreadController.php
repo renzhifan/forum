@@ -89,6 +89,16 @@ class ThreadController extends Controller
             'replies' => $thread->replies()->paginate(10)
         ]);
     }
+    public function destroy($channel,Thread $thread)
+    {
+        $thread->delete();
+
+        if(request()->wantsJson()){
+            return response([],204);
+        }
+
+        return redirect('/threads');
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -113,14 +123,4 @@ class ThreadController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Thread  $thread
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Thread $thread)
-    {
-        //
-    }
 }
