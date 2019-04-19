@@ -28,7 +28,7 @@ class ProfilesTest extends TestCase
         $this->get("/profiles/{$user->name}")
             ->assertSee($user->name);
     }
-    public function testProfilesDisplayAllThreadsCreatedByTheAssociatedUser()
+    /*public function testProfilesDisplayAllThreadsCreatedByTheAssociatedUser()
     {
         $user = create('App\User');
 
@@ -37,5 +37,5 @@ class ProfilesTest extends TestCase
         $this->get("/profiles/{$user->name}")
             ->assertSee($thread->title)
             ->assertSee($thread->body);
-    }
+    }*/
 }
