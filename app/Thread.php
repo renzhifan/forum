@@ -9,6 +9,11 @@ class Thread extends Model
     //
     protected $guarded = [];
 
+    public function scopeFilter($query,$filters)
+    {
+        return $filters->apply($query);
+    }
+
     public function path()
     {
         return "/threads/{$this->channel->slug}/{$this->id}";
