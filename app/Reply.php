@@ -10,6 +10,7 @@ class Reply extends Model
     use Favoritable,RecordsActivity;
     protected $guarded = [];
     protected $with = ['owner','favorites'];
+    protected $appends = ['favoritesCount','isFavorited'];
     public function owner()
     {
         return $this->belongsTo(User::class,'user_id');  // 使用 user_id 字段进行模型关联
